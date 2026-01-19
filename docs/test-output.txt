@@ -1,0 +1,288 @@
+ npm test
+
+> express-bookings@1.0.0 test
+> npm run test-positive && npm run test-negative
+
+
+> express-bookings@1.0.0 test-positive
+> newman run "./postman/collections/Bookings API.json" -e "./postman/environments/Local.postman_environment.json"
+
+newman
+
+Booking API
+
+□ 00 Auth
+└ http://{{baseURL}}:3000/login
+  POST http://localhost:3000/login [200 OK, 440B, 367ms]
+  √  Login returned token
+
+□ 10 Users
+└ Get all users
+  GET http://localhost:3000/users [200 OK, 1.36kB, 10ms]
+
+└ POST Create user
+  POST http://localhost:3000/users [201 Created, 469B, 13ms]
+
+└ Get User by ID
+  GET http://localhost:3000/users/46976a3b-45db-4918-8b62-4aacb3444637 [200 OK, 439B, 8ms]
+
+└ PUT Update user by ID
+  PUT http://localhost:3000/users/46976a3b-45db-4918-8b62-4aacb3444637 [200 OK, 464B, 10ms]
+
+└ DELETE User by ID
+  DELETE http://localhost:3000/users/46976a3b-45db-4918-8b62-4aacb3444637 [200 OK, 280B, 19ms]
+
+└ GET /users?username=jdoe
+  GET http://localhost:3000/users?username=jdoe [200 OK, 451B, 4ms]
+
+└ GET /users?email=johndoe@example.com
+  GET http://localhost:3000/users?email=johndoe@example.com [200 OK, 451B, 2ms]
+
+□ 20 Hosts
+└ GET all hosts
+  GET http://localhost:3000/hosts [200 OK, 2.23kB, 3ms]
+
+└ POST Create host
+  POST http://localhost:3000/hosts [201 Created, 551B, 6ms]
+
+└ GET Host by ID
+  GET http://localhost:3000/hosts/67e30526-1194-44ef-97d7-cc5161e45322 [200 OK, 546B, 4ms]
+
+└ PUT Update host by ID
+  PUT http://localhost:3000/hosts/67e30526-1194-44ef-97d7-cc5161e45322 [200 OK, 571B, 6ms]
+
+└ DELETE host by ID
+  DELETE http://localhost:3000/hosts/67e30526-1194-44ef-97d7-cc5161e45322 [200 OK, 280B, 9ms]
+
+└ GET /hosts?name=John+Doe
+  GET http://localhost:3000/hosts?name=John+Doe [200 OK, 550B, 4ms]
+
+□ 30 Properties
+└ GET all properties
+  GET http://localhost:3000/properties [200 OK, 1.89kB, 3ms]
+  ┌
+  │ 'propertyId =', 'g9012345-67ef-0123-4567-89abcdef0123'
+  └
+
+└ POST Create property
+  POST http://localhost:3000/properties [201 Created, 523B, 16ms]
+
+└ GET propert by ID
+  GET http://localhost:3000/properties/4e7baee6-51aa-4b54-b01f-b13570545777 [200 OK, 518B, 2ms]
+
+└ PUT Update property by ID
+  PUT http://localhost:3000/properties/4e7baee6-51aa-4b54-b01f-b13570545777 [200 OK, 518B, 7ms]
+
+└ DELETE Property by ID
+  DELETE http://localhost:3000/properties/4e7baee6-51aa-4b54-b01f-b13570545777 [200 OK, 251B, 11ms]
+
+└ GET /properties?location=Malibu, California
+  GET http://localhost:3000/properties?location=Malibu, California [200 OK, 557B, 6ms]
+
+└ GET /properties?pricePerNight=310.25
+  GET http://localhost:3000/properties?pricePerNight=310.25 [200 OK, 557B, 5ms]
+
+└ GET /properties?location=Malibu, California&pricePerNight=310.25
+  GET http://localhost:3000/properties?location=Malibu, California&pricePerNight=310.25 [200 OK, 557B, 6ms]
+
+□ 40 Bookings
+└ GET all bookings
+  GET http://localhost:3000/bookings [200 OK, 1.41kB, 6ms]
+
+└ Post Create booking
+  POST http://localhost:3000/bookings [201 Created, 531B, 13ms]
+
+└ GET Booking by ID
+  GET http://localhost:3000/bookings/4e654041-0ccf-4762-9f0a-647317e1231f [200 OK, 526B, 4ms]
+
+└ PUT Update booking by ID
+  PUT http://localhost:3000/bookings/4e654041-0ccf-4762-9f0a-647317e1231f [401 Unauthorized, 271B, 3ms]
+
+└ DELETE booking by ID
+  DELETE http://localhost:3000/bookings/4e654041-0ccf-4762-9f0a-647317e1231f [401 Unauthorized, 271B, 4ms]
+
+└ /bookings?userId=a1234567-89ab-cdef-0123-456789abcdef
+  GET http://localhost:3000/bookings?userId=a1234567-89ab-cdef-0123-456789abcdef [200 OK, 235B, 3ms]
+
+□ 50 Reviews
+└ GET all reviews
+  GET http://localhost:3000/reviews [200 OK, 1.11kB, 3ms]
+
+└ POST Create review
+  POST http://localhost:3000/reviews [201 Created, 461B, 7ms]
+
+└ GET Review by ID
+  GET http://localhost:3000/reviews/f3c5e5e9-e267-4652-8d4e-c0370deb84d5 [200 OK, 456B, 4ms]
+
+└ PUT Update review by ID
+  PUT http://localhost:3000/reviews/f3c5e5e9-e267-4652-8d4e-c0370deb84d5 [200 OK, 456B, 4ms]
+
+└ DELETE Review by ID
+  DELETE http://localhost:3000/reviews/f3c5e5e9-e267-4652-8d4e-c0370deb84d5 [200 OK, 251B, 12ms]
+
+┌─────────────────────────┬───────────────────┬──────────────────┐
+│                         │          executed │           failed │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│              iterations │                 1 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│                requests │                33 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│            test-scripts │                46 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│      prerequest-scripts │                33 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│              assertions │                 1 │                0 │
+├─────────────────────────┴───────────────────┴──────────────────┤
+│ total run duration: 3.3s                                       │
+├────────────────────────────────────────────────────────────────┤
+│ total data received: 12.59kB (approx)                          │
+├────────────────────────────────────────────────────────────────┤
+│ average response time: 17ms [min: 2ms, max: 367ms, s.d.: 61ms] │
+└────────────────────────────────────────────────────────────────┘
+
+> express-bookings@1.0.0 test-negative
+> newman run "./postman/collections/Bookings API Negative.json" -e "./postman/environments/Local.postman_environment.json"
+
+newman
+
+Bookings API Negative
+
+□ users / {userId}
+└ Get user by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 28ms]
+  GET http://localhost:3000/users/:userId [404 Not Found, 270B, 5ms]
+  √  Response status code is 404
+
+└ Update user by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  PUT http://localhost:3000/users/d4567890-12 [404 Not Found, 260B, 4ms]
+  √  Response status code is 404
+
+└ Delete user by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  DELETE http://localhost:3000/users/d4567890-12ef-01 [404 Not Found, 260B, 4ms]
+  √  Response status code is 404
+
+□ users
+└ Create a new user
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  POST http://localhost:3000/users [400 Bad Request, 269B, 16ms]
+  √  Response status code is 400
+
+□ hosts / {hostId}
+└ Get host by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 29ms]
+  GET http://localhost:3000/hosts/:hostId [404 Not Found, 270B, 3ms]
+  √  Response status code is 404
+
+└ Update host by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  PUT http://localhost:3000/hosts/:hostId [404 Not Found, 260B, 4ms]
+  √  Response status code is 404
+
+└ Delete host by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  DELETE http://localhost:3000/hosts/:hostId [404 Not Found, 260B, 4ms]
+  √  Response status code is 404
+
+□ hosts
+└ Create a new host
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  POST http://localhost:3000/hosts [400 Bad Request, 269B, 4ms]
+  √  Response status code is 400
+
+□ properties / {propertyId}
+└ Get deleted property by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  GET http://localhost:3000/properties/a9876543-21dc-4321-ba98-fedcba098765 [404 Not Found, 274B, 4ms]
+  √  Response status code is 404
+
+└ Get non-existent property by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  GET http://localhost:3000/properties/w0123456-78f0-1234-5678-9abcdef01234 [404 Not Found, 274B, 2ms]
+  √  Response status code is 404
+
+└ Update property by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  PUT http://localhost:3000/properties/a9876543-21dc-4321-ba98-fedcba098765 [404 Not Found, 264B, 3ms]
+  √  Response status code is 404
+
+└ Delete property by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 8ms]
+  DELETE http://localhost:3000/properties/a9876543-21dc-4321-ba98-fedcba098765 [404 Not Found, 264B, 3ms]
+  √  Response status code is 404
+
+□ properties
+└ Create a new property
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  POST http://localhost:3000/properties [400 Bad Request, 269B, 4ms]
+  √  Response status code is 400
+
+□ bookings / {bookingId}
+└ Get booking by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  GET http://localhost:3000/bookings/f0123456-78ab-cdef-0123-456789abcdef [404 Not Found, 273B, 2ms]
+  √  Response status code is 404
+
+└ Update booking by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  PUT http://localhost:3000/bookings/f0123456-78ab-cdef-0123-456789abcdef [404 Not Found, 263B, 3ms]
+  √  Response status code is 404
+
+└ Delete booking by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  DELETE http://localhost:3000/bookings/f0123456-78ab-cdef-0123-456789abcdef [404 Not Found, 263B, 3ms]
+  √  Response status code is 404
+
+□ bookings
+└ Create a new booking
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  POST http://localhost:3000/bookings [400 Bad Request, 269B, 4ms]
+  √  Response status code is 400
+
+□ reviews / {reviewId}
+└ Get review by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  GET http://localhost:3000/reviews/j0123456-78f0-1234-5678-9abcdef01234 [404 Not Found, 272B, 2ms]
+  √  Response status code is 404
+
+└ Update review by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  PUT http://localhost:3000/reviews/j0123456-78f0-1234-5678-9abcdef01234 [404 Not Found, 262B, 3ms]
+  √  Response status code is 404
+
+└ Delete review by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  DELETE http://localhost:3000/reviews/j0123456-78f0-1234-5678-9abcdef01234 [404 Not Found, 262B, 4ms]
+  √  Response status code is 404
+
+□ reviews
+└ Create a new review
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  POST http://localhost:3000/reviews [400 Bad Request, 269B, 3ms]
+  √  Response status code is 400
+
+→ User Login
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  POST http://localhost:3000/login [401 Unauthorized, 278B, 2ms]
+  √  Response status code is 401
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              44 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              44 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │              22 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              22 │               0 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 2.2s                                    │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 5.03kB (approx)                        │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 5ms [min: 2ms, max: 29ms, s.d.: 5ms] │
+└─────────────────────────────────────────────────────────────┘

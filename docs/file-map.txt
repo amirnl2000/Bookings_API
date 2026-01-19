@@ -1,0 +1,75 @@
+﻿Folder PATH listing for Bookings_API
+|-- docs
+|   |-- file-map.txt
+|   \-- test-output.txt
+|-- postman
+|   |-- collections
+|   |   |-- Bookings API Negative.json
+|   |   \-- Bookings API.json
+|   \-- environments
+|       |-- Booking App.postman_environment.json
+|       \-- Local.postman_environment.json
+|-- prisma
+|   |-- prisma
+|   |   \-- dev.db
+|   |-- dev.db
+|   |-- schema.prisma
+|   \-- seed.js
+|-- src
+|   |-- data
+|   |   |-- amenities.json
+|   |   |-- bookings.json
+|   |   |-- hosts.json
+|   |   |-- properties.json
+|   |   |-- reviews.json
+|   |   \-- users.json
+|   |-- middleware
+|   |   |-- auth.js
+|   |   \-- errorHandler.js
+|   |-- routes
+|   |   |-- bookings.js
+|   |   |-- hosts.js
+|   |   |-- login.js
+|   |   |-- properties.js
+|   |   |-- reviews.js
+|   |   \-- users.js
+|   |-- services
+|   |   |-- bookings
+|   |   |   |-- createBooking.js
+|   |   |   |-- deleteBookingById.js
+|   |   |   |-- getBookingById.js
+|   |   |   |-- getBookings.js
+|   |   |   \-- updateBookingById.js
+|   |   |-- hosts
+|   |   |   |-- createHost.js
+|   |   |   |-- deleteHostById.js
+|   |   |   |-- getHostById.js
+|   |   |   |-- getHosts.js
+|   |   |   \-- updateHostById.js
+|   |   |-- properties
+|   |   |   |-- createProperty.js
+|   |   |   |-- deletePropertyById.js
+|   |   |   |-- getProperties.js
+|   |   |   |-- getPropertyById.js
+|   |   |   \-- updatePropertyById.js
+|   |   |-- reviews
+|   |   |   |-- createReview.js
+|   |   |   |-- deleteReviewById.js
+|   |   |   |-- getReviewById.js
+|   |   |   |-- getReviews.js
+|   |   |   \-- updateReviewById.js
+|   |   \-- users
+|   |       |-- createUser.js
+|   |       |-- deleteUserById.js
+|   |       |-- getUserById.js
+|   |       |-- getUsers.js
+|   |       \-- updateUserById.js
+|   |-- utils
+|   |   \-- prisma.js
+|   \-- index.js
+|-- .env
+|-- .gitignore
+|-- dev.db
+|-- package.json
+|-- package-lock.json
+\-- README.md

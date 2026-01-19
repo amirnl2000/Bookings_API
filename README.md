@@ -1,62 +1,222 @@
-# BED Final Project Starter
+# BED Final Project - Amir Darzi - Bookings_API
 
-This repository contains starter code for the Bookings project.
+This repository contains the final project for Back End Development with JavaScript by Winc Academy.
+
+I built the API myself (routes, Prisma services, auth, validation, error handling).
+I used ChatGPT as a study helper to understand errors, debug failing tests, and improve my implementation step by step.
+All final code decisions and changes were made by me, and I verified them by running the provided Postman and Newman tests locally.
+
+## Project structure (high level)
+
+- src/
+  - index.js: Express app entry, mounts routers, 404, error handling
+  - routes/: Route definitions per resource
+  - services/: Prisma queries and business logic per resource
+  Services pattern
+                    - src/services/<resource>/
+                      - create<Resource>.js
+                      - get<Resource>s.js
+                      - get<Resource>ById.js
+                      - update<Resource>ById.js
+                      - delete<Resource>ById.js
+
+  - middleware/: JWT auth middleware and global error handler
+  - utils/prisma.js: Shared Prisma client
+  - data/: Seed JSON used by prisma/seed.js
+- prisma/
+  - schema.prisma: Prisma schema
+  - seed.js: Reset and seed database from src/data JSON
+- postman/
+  - collections/: Newman test collections (positive and negative)
+  - environments/: Postman environments
+
+Full file map:
+- docs/file-map.txt
+
+## Postman and automated tests (Newman)
+
+Collections
+- postman/collections/Bookings API.json
+- postman/collections/Bookings API Negative.json
+
+Environment
+- postman/environments/Local.postman_environment.json
+  baseURL should be: localhost
+
+## Endpoints (from Postman collection)
+Protected routes require:
+Authorization: Bearer <token>
+
+Auth
+- POST /login
+
+Users
+- GET /users
+- GET /users?username=...
+- GET /users?email=...
+- GET /users/:userId
+- POST /users (protected)
+- PUT /users/:userId (protected)
+- DELETE /users/:userId (protected)
+
+Hosts
+- GET /hosts
+- GET /hosts?name=...
+- GET /hosts/:hostId
+- POST /hosts (protected)
+- PUT /hosts/:hostId (protected)
+- DELETE /hosts/:hostId (protected)
+
+Properties
+- GET /properties
+- GET /properties?location=...
+- GET /properties?pricePerNight=...
+- GET /properties?location=...&pricePerNight=...
+- GET /properties/:propertyId
+- POST /properties (protected)
+- PUT /properties/:propertyId (protected)
+- DELETE /properties/:propertyId (protected)
+
+Bookings
+- GET /bookings
+- GET /bookings?userId=...
+- GET /bookings/:bookingId
+- POST /bookings (protected)
+- PUT /bookings/:bookingId (protected)
+- DELETE /bookings/:bookingId (protected)
+
+Reviews
+- GET /reviews
+- GET /reviews/:reviewId
+- POST /reviews (protected)
+- PUT /reviews/:reviewId (protected)
+- DELETE /reviews/:reviewId (protected)
 
 ## How to get started
 
-You can clone the repo, install and run the app with the following commands:
+### Requirements
+- Node.js 18 or newer
+- npm
+- Git
 
-```plaintext
+### Install
+From the project root:
+
+```bash
 npm install
+````
+
+### Environment variables
+
+Create a .env file in the project root:
+
+```env
+DATABASE_URL="file:./prisma/dev.db"
+AUTH_SECRET_KEY="dev-secret"
+SENTRY_DSN=""
+NODE_ENV=development
+SENTRY_ENVIRONMENT=development
+```
+
+Notes
+
+* SENTRY_DSN can be empty for local development.
+* This project uses SQLite via Prisma (prisma/dev.db).
+
+### Database setup (first time)
+
+Create the database and seed initial data:
+
+```bash
+npx prisma db push
+npx prisma db seed
+```
+
+Full reset (recommended before re running tests):
+
+```bash
+npx prisma db push --force-reset
+npx prisma db seed
+```
+
+### Start the server
+
+```bash
 npm run dev
 ```
 
-## Starting the App
+Server runs at:
 
-To start the app, follow these steps:
+* [http://localhost:3000](http://localhost:3000)
 
-1. Create a `.env` file in the root directory.
-2. Replace the values for `AUTH_SECRET_KEY` and `SENTRY_DSN` with your own values.
+### Postman environment (important)
 
-```plaintext
-AUTH_SECRET_KEY=your_secret_key_here
-SENTRY_DSN=your_sentry_dsn_here
+Use:
+
+* postman/environments/Local.postman_environment.json
+
+Make sure:
+
+* baseURL value is: localhost
+
+Important rules:
+
+* Do not include http://
+* Do not include the port
+  The collection already adds http:// and :3000.
+
+## Running tests (Postman Newman)
+
+### Recommended flow
+
+Terminal 1 (keep running):
+
+```bash
+npm run dev
 ```
 
-## Running tests
+Terminal 2:
 
-Tests are created using Newman, a command-line tool that is able to automate execution of Postman-created tests. Therefore, this command will simulate more or less the same tests that we executed during the course (e.g. test if the "happy case" returns 200 or 201 status code, or it returns 404 Not found when we are requesting a non-existing ID).
-
-To run the tests, perform the following steps:
-
-1. Start the server. This can usually be done by running `npm run dev` in the folder you want to test.
-2. Go to `postman/environments` folder in the repo. It has a content like this:
-
-```json
-{
-  "id": "f1936dc5-a5da-47d7-8189-045437f96e9e",
-  "name": "Local",
-  "values": [
-    {
-      "key": "baseUrl",
-      "value": "http://0.0.0.0:3000",
-      "type": "default",
-      "enabled": true
-    }
-  ],
-  "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2023-08-11T05:55:13.469Z",
-  "_postman_exported_using": "Postman/10.16.9"
-}
-```
-
-3. If your server is running on a different port or URL, change the value `http://0.0.0.0:3000` to your server's data (this is the default one though).
-4. Run the following command
-
-```plaintext
+```bash
 npm test
 ```
 
-After this, you will see the test results prompted to the terminal. If you have a look at the `package.json` file, you will see that it executes the collection stored in the `postman` folder of the repo root.
+Expected results:
 
-Important: When dealing with JSON data, please, make sure that you restart the server with `npm run dev` every time you execute tests! This is important because some tests will remove data via DELETE endpoints and that operation cannot be repeated with the same ID again and again.
+* Positive: 33 requests, 0 failed
+* Negative: 44 requests, 0 failed
+
+Full sample output:
+
+* docs/test-output.txt
+
+### If you rerun tests
+
+Some tests delete data. Before re running tests, reset and reseed:
+
+```bash
+npx prisma db push --force-reset
+npx prisma db seed
+```
+
+### Run collections individually (optional)
+
+```bash
+npm run test-positive
+npm run test-negative
+```
+
+## Scripts (quick reference)
+
+* npm run dev: start the API with nodemon
+* npm test: run positive and negative Newman collections
+* npm run test-positive: run positive collection only
+* npm run test-negative: run negative collection only
+
+## Notes about Sentry
+
+Sentry is optional for local development.
+
+If you temporarily added a /debug-sentry test route, keep it commented out or remove it before deploying.
+
+```
