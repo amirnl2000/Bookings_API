@@ -1,5 +1,4 @@
 import { prisma } from "../../utils/prisma.js";
-import { v4 as uuidv4 } from "uuid";
 
 export default async function createBooking({
   userId,
@@ -12,7 +11,6 @@ export default async function createBooking({
 }) {
   return prisma.booking.create({
     data: {
-      id: uuidv4(),
       userId,
       propertyId,
       checkinDate,

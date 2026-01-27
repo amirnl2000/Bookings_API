@@ -16,6 +16,7 @@ export default async function deleteBookingById(id) {
   });
 
   return id;
+  
 }
 
 

@@ -1,5 +1,4 @@
 import { prisma } from "../../utils/prisma.js";
-import { v4 as uuidv4 } from "uuid";
 
 export default async function createHost(
   username,
@@ -12,7 +11,6 @@ export default async function createHost(
 ) {
   return prisma.host.create({
     data: {
-      id: uuidv4(), // The schema has String @id without @default(uuid())
       username,
       password,
       name,

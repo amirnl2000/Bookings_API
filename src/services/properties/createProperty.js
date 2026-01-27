@@ -1,5 +1,4 @@
 import { prisma } from "../../utils/prisma.js";
-import { v4 as uuidv4 } from "uuid";
 
 export default async function createProperty(
   title,
@@ -14,7 +13,6 @@ export default async function createProperty(
 ) {
   return prisma.property.create({
     data: {
-      id: uuidv4(),
       title,
       description,
       location,

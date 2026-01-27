@@ -1,7 +1,8 @@
 import { prisma } from "../../utils/prisma.js";
+import NotFoundError from "../../middleware/errorHandler.js";
 
 export default async function getHostById(id) {
-  return prisma.host.findUnique({
+  const host = await prisma.host.findUnique({
     where: { id },
     select: {
       id: true,
@@ -10,7 +11,13 @@ export default async function getHostById(id) {
       email: true,
       phoneNumber: true,
       pictureUrl: true,
-      aboutMe: true,
-    },
+      aboutMe: true
+    }
   });
+
+  if (!host) {
+    throw new NotFoundError("Host not found");
+  }
+
+  return host;
 }

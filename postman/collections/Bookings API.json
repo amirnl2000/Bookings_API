@@ -1,1155 +1,1375 @@
 {
-	"info": {
-		"_postman_id": "2d11f8ac-3cb0-4ca5-95a7-45b713c3c411",
-		"name": "Booking API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "50710654",
-		"_collection_link": "https://amirnl2000-2419737.postman.co/workspace/API-testing-is-great~00c93133-9156-4b88-aa47-e17f263a07fb/collection/50710654-2d11f8ac-3cb0-4ca5-95a7-45b713c3c411?action=share&source=collection_link&creator=50710654"
-	},
-	"item": [
-		{
-			"name": "00 Auth",
-			"item": [
-				{
-					"name": "http://{{baseURL}}:3000/login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const json = pm.response.json();\r",
-									"\r",
-									"pm.test(\"Login returned token\", () => {\r",
-									"  pm.expect(json).to.have.property(\"token\");\r",
-									"  pm.expect(json.token).to.be.a(\"string\").and.not.empty;\r",
-									"});\r",
-									"\r",
-									"// The rest of the collection uses: Authorization: Bearer {{bearerToken}}\r",
-									"\r",
-									"pm.environment.set(\"bearerToken\", json.token);\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"jdoe\",\r\n  \"password\": \"password123\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/login",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"login"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "10 Users",
-			"item": [
-				{
-					"name": "Get all users",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/users",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST Create user",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const json = pm.response.json();\r",
-									"const id =\r",
-									"  json.id ||\r",
-									"  (json.data && json.data.id) ||\r",
-									"  (json.user && json.user.id);\r",
-									"\r",
-									"if (id) pm.environment.set(\"userId\", id);\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"alex_{{$timestamp}}\",\r\n  \"password\": \"password123\",\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe+{{$timestamp}}@example.com\",\r\n  \"phoneNumber\": \"1234567890\",\r\n  \"pictureUrl\": \"https://example.com/pic.jpg\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/users",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get User by ID",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/users/{{userId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"users",
-								"{{userId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT Update user by ID",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/users/{{userId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"users",
-								"{{userId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE User by ID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/users/{{userId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"users",
-								"{{userId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /users?username=jdoe",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/users?username=jdoe",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"users"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "jdoe"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /users?email=johndoe@example.com",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/users?email=johndoe@example.com",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"users"
-							],
-							"query": [
-								{
-									"key": "email",
-									"value": "johndoe@example.com"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "20 Hosts",
-			"item": [
-				{
-					"name": "GET all hosts",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/hosts",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"hosts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST Create host",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const json = pm.response.json();\r",
-									"const id =\r",
-									"  json.id ||\r",
-									"  (json.data && json.data.id) ||\r",
-									"  (json.user && json.user.id);\r",
-									"\r",
-									"if (id) pm.environment.set(\"hostId\", id);\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"newhosty_{{$timestamp}}\",\r\n  \"password\": \"password123\",\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe+host{{$timestamp}}@email.com\",\r\n  \"phoneNumber\": \"11234567890\",\r\n  \"pictureUrl\": \"https://example.com/pic1.jpg\",\r\n  \"aboutMe\": \"I am a passionate traveler who loves to share my home with fellow explorers. Welcome!\"\r\n}\r\n\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/hosts",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"hosts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET Host by ID",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"amir_test_host\",\r\n  \"password\": \"password1234\",\r\n  \"name\": \"Host Test\",\r\n  \"email\": \"amir_test_host@example.com\",\r\n  \"phoneNumber\": \"021356478900\",\r\n  \"pictureUrl\": \"https://example.com/pic1.jpg\",\r\n  \"aboutMe\": \"I'm creating my own profile\"\r\n}\r\n"
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/hosts/{{hostId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"hosts",
-								"{{hostId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT Update host by ID",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/hosts/{{hostId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"hosts",
-								"{{hostId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE host by ID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/hosts/{{hostId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"hosts",
-								"{{hostId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /hosts?name=John+Doe",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/hosts?name=John+Doe",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"hosts"
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "John+Doe"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "30 Properties",
-			"item": [
-				{
-					"name": "GET all properties",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const arr = pm.response.json();\r",
-									"pm.environment.set(\"propertyId\", arr[0].id);\r",
-									"console.log(\"propertyId =\", arr[0].id);\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/properties",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"properties"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST Create property",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const json = pm.response.json();\r",
-									"const id =\r",
-									"  json.id ||\r",
-									"  (json.data && json.data.id) ||\r",
-									"  (json.user && json.user.id);\r",
-									"\r",
-									"if (id) pm.environment.set(\"propertyId\", id);\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n      \"title\": \"Test Hotel 2026\",\r\n      \"description\": \"The best place for you\",\r\n      \"location\": \"Amsterdam, Netherlands\",\r\n      \"pricePerNight\": 120,\r\n      \"bedroomCount\": 10,\r\n      \"bathRoomCount\": 12,\r\n      \"maxGuestCount\": 30,\r\n      \"rating\": 5,\r\n      \"hostId\": \"d2345678-90ab-cdef-1234-567890abcdef\"\r\n\r\n\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/properties",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"properties"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET propert by ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/properties/{{propertyId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"properties",
-								"{{propertyId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT Update property by ID",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/properties/{{propertyId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"properties",
-								"{{propertyId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE Property by ID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/properties/{{propertyId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"properties",
-								"{{propertyId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /properties?location=Malibu, California",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/properties?location=Malibu, California",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"properties"
-							],
-							"query": [
-								{
-									"key": "location",
-									"value": "Malibu, California"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /properties?pricePerNight=310.25",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/properties?pricePerNight=310.25",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"properties"
-							],
-							"query": [
-								{
-									"key": "pricePerNight",
-									"value": "310.25"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /properties?location=Malibu, California&pricePerNight=310.25",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n      \"title\": \"Test Hotel 2026\",\r\n      \"description\": \"The best place for you\",\r\n      \"location\": \"Amsterdam, Netherlands\",\r\n      \"pricePerNight\": \"120\",\r\n      \"bedroomCount\": \"10\",\r\n      \"bathRoomCount\": \"12\",\r\n      \"maxGuestCount\": \"30\",\r\n      \"rating\": \"5\"\r\n\r\n\r\n}"
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/properties?location=Malibu, California&pricePerNight=310.25",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"properties"
-							],
-							"query": [
-								{
-									"key": "location",
-									"value": "Malibu, California"
-								},
-								{
-									"key": "pricePerNight",
-									"value": "310.25"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "40 Bookings",
-			"item": [
-				{
-					"name": "GET all bookings",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"jdoe\",\r\n  \"password\": \"password123\"\r\n}\r\n"
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/bookings",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"bookings"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Post Create booking",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const json = pm.response.json();\r",
-									"const id =\r",
-									"  json.id ||\r",
-									"  (json.data && json.data.id) ||\r",
-									"  (json.user && json.user.id);\r",
-									"\r",
-									"if (id) pm.environment.set(\"bookingId\", id);\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n        \"userId\": \"3456789-01de-f012-3456-789abcdef011\",\r\n        \"propertyId\": \"h0123456-78f0-1234-5678-9abcdef01234\",\r\n        \"checkinDate\": \"2026-04-12T16:00:00.000Z\",\r\n        \"checkoutDate\": \"2026-04-19T11:00:00.000Z\",\r\n        \"numberOfGuests\": 3,\r\n        \"totalPrice\": 220,\r\n        \"bookingStatus\": \"pending\"\r\n}\r\n     ",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/bookings",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"bookings"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET Booking by ID",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/bookings/{{bookingId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"bookings",
-								"{{bookingId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT Update booking by ID",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/bookings/{{bookingId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"bookings",
-								"{{bookingId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE booking by ID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/bookings/{{bookingId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"bookings",
-								"{{bookingId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/bookings?userId=a1234567-89ab-cdef-0123-456789abcdef",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/bookings?userId=a1234567-89ab-cdef-0123-456789abcdef",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"bookings"
-							],
-							"query": [
-								{
-									"key": "userId",
-									"value": "a1234567-89ab-cdef-0123-456789abcdef"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "50 Reviews",
-			"item": [
-				{
-					"name": "GET all reviews",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{baseURL}}:3000/reviews",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"reviews"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST Create review",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const json = pm.response.json();\r",
-									"const id =\r",
-									"  json.id ||\r",
-									"  (json.data && json.data.id) ||\r",
-									"  (json.user && json.user.id);\r",
-									"\r",
-									"if (id) pm.environment.set(\"reviewId\", id);\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "        {\r\n        \"userId\": \"d4567890-12ef-0123-4567-89abcdef0123\",\r\n        \"propertyId\": \"g9012345-67ef-0123-4567-89abcdef0123\",\r\n        \"rating\": 4,\r\n        \"comment\": \"The property was good, breakfast needs improvement.\"\r\n    }",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/reviews",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"reviews"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET Review by ID",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "        {\r\n        \"userId\": \"d4567890-12ef-0123-4567-89abcdef0123\",\r\n        \"propertyId\": \"g9012345-67ef-0123-4567-89abcdef0123\",\r\n        \"rating\": 4,\r\n        \"comment\": \"The property was good, breakfast needs improvement.\"\r\n    }"
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/reviews/{{reviewId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"reviews",
-								"{{reviewId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT Update review by ID",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "        {\r\n        \"userId\": \"d4567890-12ef-0123-4567-89abcdef0123\",\r\n        \"propertyId\": \"g9012345-67ef-0123-4567-89abcdef0123\",\r\n        \"rating\": 4,\r\n        \"comment\": \"The property was good, breakfast needs improvement.\"\r\n    }"
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/reviews/{{reviewId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"reviews",
-								"{{reviewId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE Review by ID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "        {\r\n        \"userId\": \"d4567890-12ef-0123-4567-89abcdef0123\",\r\n        \"propertyId\": \"g9012345-67ef-0123-4567-89abcdef0123\",\r\n        \"rating\": 4,\r\n        \"comment\": \"The property was good, breakfast needs improvement.\"\r\n    }"
-						},
-						"url": {
-							"raw": "http://{{baseURL}}:3000/reviews/{{reviewId}}",
-							"protocol": "http",
-							"host": [
-								"{{baseURL}}"
-							],
-							"port": "3000",
-							"path": [
-								"reviews",
-								"{{reviewId}}"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		}
-	],
-	"auth": {
-		"type": "bearer",
-		"bearer": [
-			{
-				"key": "token",
-				"value": "{{bearerToken}}",
-				"type": "string"
-			}
-		]
-	},
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"packages": {},
-				"requests": {},
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"packages": {},
-				"requests": {},
-				"exec": [
-					"const { token } = pm.response.json();\r",
-					"pm.environment.set(\"token\", token);\r",
-					""
-				]
-			}
-		}
-	]
+  "info": {
+    "_postman_id": "2d11f8ac-3cb0-4ca5-95a7-45b713c3c411",
+    "name": "Booking API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50710654",
+    "_collection_link": "https://go.postman.co/collection/50710654-2d11f8ac-3cb0-4ca5-95a7-45b713c3c411?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "00 Auth",
+      "item": [
+        {
+          "name": "http://{{baseURL}}:3000/login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Login returned token\", () => {\r",
+                  "  pm.expect(json).to.have.property(\"token\");\r",
+                  "  pm.expect(json.token).to.be.a(\"string\").and.not.empty;\r",
+                  "});\r",
+                  "\r",
+                  "// The rest of the collection uses: Authorization: Bearer {{bearerToken}}\r",
+                  "\r",
+                  "pm.environment.set(\"bearerToken\", json.token);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"jdoe\",\r\n  \"password\": \"password123\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/login",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "10 Users",
+      "item": [
+        {
+          "name": "Get all users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/users",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Create user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "const id =\r",
+                  "  json.id ||\r",
+                  "  (json.data && json.data.id) ||\r",
+                  "  (json.user && json.user.id);\r",
+                  "\r",
+                  "if (id) pm.environment.set(\"userId\", id);\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"alex_{{$timestamp}}\",\r\n  \"password\": \"password123\",\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe+{{$timestamp}}@example.com\",\r\n  \"phoneNumber\": \"1234567890\",\r\n  \"pictureUrl\": \"https://example.com/pic.jpg\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/users",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User by ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/users/{{userId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Update user by ID",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/users/{{userId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE User by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/users/{{userId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET /users?username=jdoe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/users?username=jdoe",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "jdoe"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET /users?email=johndoe@example.com",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/users?email=johndoe@example.com",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "johndoe@example.com"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "20 Hosts",
+      "item": [
+        {
+          "name": "GET all hosts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/hosts",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "hosts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Create host",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "const id =\r",
+                  "  json.id ||\r",
+                  "  (json.data && json.data.id) ||\r",
+                  "  (json.user && json.user.id);\r",
+                  "\r",
+                  "if (id) pm.environment.set(\"hostId\", id);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"newhosty_{{$timestamp}}\",\r\n  \"password\": \"password123\",\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe+host{{$timestamp}}@email.com\",\r\n  \"phoneNumber\": \"11234567890\",\r\n  \"pictureUrl\": \"https://example.com/pic1.jpg\",\r\n  \"aboutMe\": \"I am a passionate traveler who loves to share my home with fellow explorers. Welcome!\"\r\n}\r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/hosts",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "hosts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Host by ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"amir_test_host\",\r\n  \"password\": \"password1234\",\r\n  \"name\": \"Host Test\",\r\n  \"email\": \"amir_test_host@example.com\",\r\n  \"phoneNumber\": \"021356478900\",\r\n  \"pictureUrl\": \"https://example.com/pic1.jpg\",\r\n  \"aboutMe\": \"I'm creating my own profile\"\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/hosts/{{hostId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "hosts",
+                "{{hostId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Update host by ID",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/hosts/{{hostId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "hosts",
+                "{{hostId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE host by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/hosts/{{hostId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "hosts",
+                "{{hostId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET /hosts?name=John+Doe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/hosts?name=John+Doe",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "hosts"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "John+Doe"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "30 Properties",
+      "item": [
+        {
+          "name": "GET all properties",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const arr = pm.response.json();\r",
+                  "pm.environment.set(\"propertyId\", arr[0].id);\r",
+                  "console.log(\"propertyId =\", arr[0].id);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/properties",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "properties"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Create property",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "const id =\r",
+                  "  json.id ||\r",
+                  "  (json.data && json.data.id) ||\r",
+                  "  (json.user && json.user.id);\r",
+                  "\r",
+                  "if (id) pm.environment.set(\"propertyId\", id);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n      \"title\": \"Test Hotel 2026\",\r\n      \"description\": \"The best place for you\",\r\n      \"location\": \"Amsterdam, Netherlands\",\r\n      \"pricePerNight\": 120,\r\n      \"bedroomCount\": 10,\r\n      \"bathRoomCount\": 12,\r\n      \"maxGuestCount\": 30,\r\n      \"rating\": 5,\r\n      \"hostId\": \"d2345678-90ab-cdef-1234-567890abcdef\"\r\n\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/properties",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "properties"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET propert by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/properties/{{propertyId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "properties",
+                "{{propertyId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Update property by ID",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/properties/{{propertyId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "properties",
+                "{{propertyId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Property by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/properties/{{propertyId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "properties",
+                "{{propertyId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET /properties?location=Malibu, California",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/properties?location=Malibu, California",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "properties"
+              ],
+              "query": [
+                {
+                  "key": "location",
+                  "value": "Malibu, California"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET /properties?pricePerNight=310.25",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/properties?pricePerNight=310.25",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "properties"
+              ],
+              "query": [
+                {
+                  "key": "pricePerNight",
+                  "value": "310.25"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET /properties?location=Malibu, California&pricePerNight=310.25",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n      \"title\": \"Test Hotel 2026\",\r\n      \"description\": \"The best place for you\",\r\n      \"location\": \"Amsterdam, Netherlands\",\r\n      \"pricePerNight\": \"120\",\r\n      \"bedroomCount\": \"10\",\r\n      \"bathRoomCount\": \"12\",\r\n      \"maxGuestCount\": \"30\",\r\n      \"rating\": \"5\"\r\n\r\n\r\n}"
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/properties?location=Malibu, California&pricePerNight=310.25",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "properties"
+              ],
+              "query": [
+                {
+                  "key": "location",
+                  "value": "Malibu, California"
+                },
+                {
+                  "key": "pricePerNight",
+                  "value": "310.25"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "40 Bookings",
+      "item": [
+        {
+          "name": "GET all bookings",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"jdoe\",\r\n  \"password\": \"password123\"\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/bookings",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Post Create booking",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "const id =\r",
+                  "  json.id ||\r",
+                  "  (json.data && json.data.id) ||\r",
+                  "  (json.user && json.user.id);\r",
+                  "\r",
+                  "if (id) pm.environment.set(\"bookingId\", id);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"userId\": \"3456789-01de-f012-3456-789abcdef011\",\r\n        \"propertyId\": \"h0123456-78f0-1234-5678-9abcdef01234\",\r\n        \"checkinDate\": \"2026-04-12T16:00:00.000Z\",\r\n        \"checkoutDate\": \"2026-04-19T11:00:00.000Z\",\r\n        \"numberOfGuests\": 3,\r\n        \"totalPrice\": 220,\r\n        \"bookingStatus\": \"pending\"\r\n}\r\n     ",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/bookings",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Booking by ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/bookings/{{bookingId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "bookings",
+                "{{bookingId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Update booking by ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/bookings/{{bookingId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "bookings",
+                "{{bookingId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE booking by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/bookings/{{bookingId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "bookings",
+                "{{bookingId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "50 Reviews",
+      "item": [
+        {
+          "name": "GET all reviews",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/reviews",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Create review",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "const id =\r",
+                  "  json.id ||\r",
+                  "  (json.data && json.data.id) ||\r",
+                  "  (json.user && json.user.id);\r",
+                  "\r",
+                  "if (id) pm.environment.set(\"reviewId\", id);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "        {\r\n        \"userId\": \"d4567890-12ef-0123-4567-89abcdef0123\",\r\n        \"propertyId\": \"g9012345-67ef-0123-4567-89abcdef0123\",\r\n        \"rating\": 4,\r\n        \"comment\": \"The property was good, breakfast needs improvement.\"\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/reviews",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Review by ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "        {\r\n        \"userId\": \"d4567890-12ef-0123-4567-89abcdef0123\",\r\n        \"propertyId\": \"g9012345-67ef-0123-4567-89abcdef0123\",\r\n        \"rating\": 4,\r\n        \"comment\": \"The property was good, breakfast needs improvement.\"\r\n    }"
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/reviews/{{reviewId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "reviews",
+                "{{reviewId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Update review by ID",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "        {\r\n        \"userId\": \"d4567890-12ef-0123-4567-89abcdef0123\",\r\n        \"propertyId\": \"g9012345-67ef-0123-4567-89abcdef0123\",\r\n        \"rating\": 4,\r\n        \"comment\": \"The property was good, breakfast needs improvement.\"\r\n    }"
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/reviews/{{reviewId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "reviews",
+                "{{reviewId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Review by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "        {\r\n        \"userId\": \"d4567890-12ef-0123-4567-89abcdef0123\",\r\n        \"propertyId\": \"g9012345-67ef-0123-4567-89abcdef0123\",\r\n        \"rating\": 4,\r\n        \"comment\": \"The property was good, breakfast needs improvement.\"\r\n    }"
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/reviews/{{reviewId}}",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "reviews",
+                "{{reviewId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Mentor checks",
+      "item": [
+        {
+          "name": "bookings?userId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "  pm.response.to.have.status(404);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/bookings?userId=a1234567-89ab-cdef-0123-456789abcdef",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "bookings"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "a1234567-89ab-cdef-0123-456789abcdef"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "users?username",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "  pm.response.to.have.status(404);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/users?username=Notfound\n",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "Notfound\n"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "properties?pricePerNight",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "  pm.response.to.have.status(404);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/properties?pricePerNight=1000\n",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "properties"
+              ],
+              "query": [
+                {
+                  "key": "pricePerNight",
+                  "value": "1000\n"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "properties?location",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "  pm.response.to.have.status(404);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/properties?location=Notfound",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "properties"
+              ],
+              "query": [
+                {
+                  "key": "location",
+                  "value": "Notfound"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "properties?pricePerNight + location",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "  pm.response.to.have.status(404);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/properties?pricePerNight=1000&location=Notfound\n",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "properties"
+              ],
+              "query": [
+                {
+                  "key": "pricePerNight",
+                  "value": "1000"
+                },
+                {
+                  "key": "location",
+                  "value": "Notfound\n"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "hosts?name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "  pm.response.to.have.status(404);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseURL}}:3000/hosts?name=John+Doef\n",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "hosts"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "John+Doef\n"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "const { token } = pm.response.json();\r",
+          "pm.environment.set(\"token\", token);\r",
+          ""
+        ]
+      }
+    }
+  ]
 }

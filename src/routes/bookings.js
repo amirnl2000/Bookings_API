@@ -9,6 +9,7 @@ import { requireAuth } from "../middleware/auth.js";
 
 const router = express.Router();
 
+
 // GET /bookings?userId=...
 router.get("/", async (req, res, next) => {
   try {
@@ -61,5 +62,8 @@ router.delete("/:bookingId", requireAuth, async (req, res, next) => {
     next(err); // this will trigger your global error handler
   }
 });
+
+
+
 
 export default router;

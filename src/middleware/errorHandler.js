@@ -6,6 +6,7 @@ export default class NotFoundError extends Error {
   }
 }
 import * as Sentry from "@sentry/node";
+import { Prisma } from "@prisma/client";
 
 // Named export: errorHandler middleware
 export const errorHandler = (err, req, res, next) => {
@@ -17,6 +18,15 @@ export const errorHandler = (err, req, res, next) => {
   if (err?.code === "P2025") {
     return res.status(404).json({ message: "Not found" });
   }
+
+  // record already exist
+  if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
+  return res.status(409).json({
+    message: "Conflict: already exists"
+  });
+}
+
+
   // Your custom errors (like NotFoundError) will have a statusCode
   if (err?.statusCode) {
     return res.status(err.statusCode).json({ message: err.message });
