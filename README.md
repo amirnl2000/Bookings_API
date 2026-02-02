@@ -166,11 +166,3 @@ If you rerun tests and things look weird, reset and reseed first:
 npx prisma db push --force-reset
 npx prisma db seed
 ```
-
-## Seeding note (why a few IDs are excluded)
-
-The negative Newman collection uses a few fixed UUIDs as "must not exist" examples and expects a 404.
-To keep the test run consistent, `prisma/seed.js` filters out those specific reserved IDs during seeding.
-Everything else is seeded normally.
-
-```

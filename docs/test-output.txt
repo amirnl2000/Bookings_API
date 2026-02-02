@@ -1,170 +1,194 @@
- npm test
-
-> express-bookings@1.0.0 test
-> npm run test-positive && npm run test-negative
-
+npm test
 
 > express-bookings@1.0.0 test-positive
-> newman run "./postman/collections/Bookings API.json" -e "./postman/environments/Local.postman_environment.json"
+> newman run "./postman/collections/Winc Bookings API.json" -e "./postman/environments/Local.postman_environment.json"
 
 newman
 
-Booking API
+Bookings API
 
-□ 00 Auth
-└ http://{{baseURL}}:3000/login
-  POST http://localhost:3000/login [200 OK, 440B, 142ms]
-  √  Login returned token
+□ users / {userId}
+└ Get user by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 28ms]
+  GET http://localhost:3000/users/e5678901-23f0-1234-5678-9abcdef01234 [200 OK, 460B, 5ms]
+  √  Response status code should be 200
+  √  Id should be a non-empty string
 
-□ 10 Users
+└ Update user by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  PUT http://localhost:3000/users/e5678901-23f0-1234-5678-9abcdef01234 [200 OK, 486B, 6ms]
+  √  Response status code should be 200
+
+└ Delete user by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  DELETE http://localhost:3000/users/e5678901-23f0-1234-5678-9abcdef01234 [200 OK, 280B, 10ms]
+  √  Response status code should be 200
+
+□ users
 └ Get all users
-  GET http://localhost:3000/users [200 OK, 1.36kB, 4ms]
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  GET http://localhost:3000/users [200 OK, 1.14kB, 2ms]
+  √  Response status code should be 200
+  √  Response is an array
 
-└ POST Create user
-  POST http://localhost:3000/users [201 Created, 469B, 8ms]
+└ Create a new user
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  POST http://localhost:3000/users [201 Created, 454B, 6ms]
+  √  Response status code should be 201
 
-└ Get User by ID
-  GET http://localhost:3000/users/29b4de34-5ce8-48ef-9d97-121a3ae4f675 [200 OK, 439B, 3ms]
+□ hosts / {hostId}
+└ Get host by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  GET http://localhost:3000/hosts/e2345678-90bc-def0-0123-456789abcdef [200 OK, 566B, 3ms]
+  √  Response status code should be 200
+  √  ID is a non-empty string
 
-└ PUT Update user by ID
-  PUT http://localhost:3000/users/29b4de34-5ce8-48ef-9d97-121a3ae4f675 [200 OK, 464B, 6ms]
+└ Update host by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  PUT http://localhost:3000/hosts/e2345678-90bc-def0-0123-456789abcdef [200 OK, 523B, 6ms]
+  √  Response status code should be 200
 
-└ DELETE User by ID
-  DELETE http://localhost:3000/users/29b4de34-5ce8-48ef-9d97-121a3ae4f675 [200 OK, 280B, 8ms]
+└ Delete host by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  DELETE http://localhost:3000/hosts/e2345678-90bc-def0-0123-456789abcdef [200 OK, 280B, 11ms]
+  √  Response status code should be 200
 
-└ GET /users?username=jdoe
-  GET http://localhost:3000/users?username=jdoe [200 OK, 451B, 4ms]
+□ hosts
+└ Get all hosts
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  GET http://localhost:3000/hosts [200 OK, 1.91kB, 2ms]
+  √  Response status code should be 200
+  √  Response body is an array
 
-└ GET /users?email=johndoe@example.com
-  GET http://localhost:3000/users?email=johndoe@example.com [200 OK, 451B, 3ms]
+└ Create a new host
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  POST http://localhost:3000/hosts [201 Created, 535B, 5ms]
+  √  Response status code should be 201
 
-□ 20 Hosts
-└ GET all hosts
-  GET http://localhost:3000/hosts [200 OK, 2.23kB, 3ms]
+□ properties / {propertyId}
+└ Get property by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  GET http://localhost:3000/properties/a9876543-21dc-4321-ba98-fedcba098765 [200 OK, 626B, 3ms]
+  √  Response status code should be 200
+  √  Id should be a non-empty string
 
-└ POST Create host
-  POST http://localhost:3000/hosts [201 Created, 551B, 9ms]
+└ Update property by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  PUT http://localhost:3000/properties/a9876543-21dc-4321-ba98-fedcba098765 [200 OK, 553B, 5ms]
+  √  Response status code should be 200
 
-└ GET Host by ID
-  GET http://localhost:3000/hosts/6409743d-e15a-4efd-8548-758c27d87b8c [200 OK, 546B, 4ms]
+└ Delete property by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  DELETE http://localhost:3000/properties/a9876543-21dc-4321-ba98-fedcba098765 [200 OK, 251B, 6ms]
+  √  Response status code should be 200
 
-└ PUT Update host by ID
-  PUT http://localhost:3000/hosts/6409743d-e15a-4efd-8548-758c27d87b8c [200 OK, 571B, 4ms]
+□ properties
+└ Get all properties
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  GET http://localhost:3000/properties [200 OK, 1.56kB, 2ms]
+  √  Response status code should be 200
+  √  Response is an array with at least one element
+  √  maxGuestCount is a non-negative integer
 
-└ DELETE host by ID
-  DELETE http://localhost:3000/hosts/6409743d-e15a-4efd-8548-758c27d87b8c [200 OK, 280B, 10ms]
+└ Create a new property
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  POST http://localhost:3000/properties [201 Created, 585B, 7ms]
+  √  Response status code should be 201
 
-└ GET /hosts?name=John+Doe
-  GET http://localhost:3000/hosts?name=John+Doe [200 OK, 550B, 2ms]
+□ bookings / {bookingId}
+└ Get booking by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  GET http://localhost:3000/bookings/f0123456-78ab-cdef-0123-456789abcdef [200 OK, 532B, 2ms]
+  √  Response status code should be 200
+  √  Id should be a non-empty string
+  √  userId is a non-empty string
+  √  propertyId should be a non-empty string
 
-□ 30 Properties
-└ GET all properties
-  GET http://localhost:3000/properties [200 OK, 1.89kB, 3ms]
-  ┌
-  │ 'propertyId =', 'g9012345-67ef-0123-4567-89abcdef0123'
-  └
+└ Update booking by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  PUT http://localhost:3000/bookings/f0123456-78ab-cdef-0123-456789abcdef [200 OK, 530B, 6ms]
+  √  Response status code should be 200
 
-└ POST Create property
-  POST http://localhost:3000/properties [201 Created, 523B, 9ms]
+└ Delete booking by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  DELETE http://localhost:3000/bookings/f0123456-78ab-cdef-0123-456789abcdef [200 OK, 251B, 22ms]
+  √  Response status code should be 200
 
-└ GET propert by ID
-  GET http://localhost:3000/properties/417502ed-d2aa-410f-b660-82fef7793222 [200 OK, 518B, 3ms]
+□ bookings
+└ Get all bookings
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  GET http://localhost:3000/bookings [200 OK, 529B, 2ms]
+  √  Response status code should be 200
+  √  Response is an array
+  √  Id should be a non-empty string
+  √  userId is a non-empty string
 
-└ PUT Update property by ID
-  PUT http://localhost:3000/properties/417502ed-d2aa-410f-b660-82fef7793222 [200 OK, 518B, 4ms]
+└ Create a new booking
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  POST http://localhost:3000/bookings [201 Created, 537B, 8ms]
+  √  Response status code should be 201
 
-└ DELETE Property by ID
-  DELETE http://localhost:3000/properties/417502ed-d2aa-410f-b660-82fef7793222 [200 OK, 251B, 13ms]
+□ reviews / {reviewId}
+└ Get review by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  GET http://localhost:3000/reviews/j0123456-78f0-1234-5678-9abcdef01234 [200 OK, 477B, 3ms]
+  √  Response status code should be 200
+  √  Response has the required fields
+  √  Id is a non-empty string
+  √  userId is a non-empty string
+  √  propertyId is a non-empty string
 
-└ GET /properties?location=Malibu, California
-  GET http://localhost:3000/properties?location=Malibu, California [200 OK, 557B, 3ms]
+└ Update review by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  PUT http://localhost:3000/reviews/j0123456-78f0-1234-5678-9abcdef01234 [200 OK, 437B, 5ms]
+  √  Response status code should be 200
 
-└ GET /properties?pricePerNight=310.25
-  GET http://localhost:3000/properties?pricePerNight=310.25 [200 OK, 557B, 2ms]
+└ Delete review by ID
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  DELETE http://localhost:3000/reviews/j0123456-78f0-1234-5678-9abcdef01234 [200 OK, 251B, 6ms]
+  √  Response status code should be 200
 
-└ GET /properties?location=Malibu, California&pricePerNight=310.25
-  GET http://localhost:3000/properties?location=Malibu, California&pricePerNight=310.25 [200 OK, 557B, 3ms]
+□ reviews
+└ Get all reviews
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  GET http://localhost:3000/reviews [200 OK, 898B, 2ms]
+  √  Response status code should be 200
+  √  Response is an array with at least one element
+  √  Id is a non-empty string
+  √  userId is a non-empty string
+  √  propertyId is a non-empty string
 
-□ 40 Bookings
-└ GET all bookings
-  GET http://localhost:3000/bookings [200 OK, 1.41kB, 3ms]
+└ Create a new review
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
+  POST http://localhost:3000/reviews [201 Created, 472B, 7ms]
+  √  Response status code should be 201
 
-└ Post Create booking
-  POST http://localhost:3000/bookings [201 Created, 531B, 8ms]
+→ User Login
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  POST http://localhost:3000/login [200 OK, 440B, 2ms]
+  √  Response status code should be 200
+  √  Response has the required field 'token'
+  √  Token is a non-empty string
 
-└ GET Booking by ID
-  GET http://localhost:3000/bookings/17c985ea-6e5c-4d7d-af00-d9f4ebb752c0 [200 OK, 526B, 3ms]
-
-└ PUT Update booking by ID
-  PUT http://localhost:3000/bookings/17c985ea-6e5c-4d7d-af00-d9f4ebb752c0 [401 Unauthorized, 271B, 2ms]
-
-└ DELETE booking by ID
-  DELETE http://localhost:3000/bookings/17c985ea-6e5c-4d7d-af00-d9f4ebb752c0 [401 Unauthorized, 271B, 2ms]
-
-□ 50 Reviews
-└ GET all reviews
-  GET http://localhost:3000/reviews [200 OK, 1.11kB, 2ms]
-
-└ POST Create review
-  POST http://localhost:3000/reviews [201 Created, 461B, 9ms]
-
-└ GET Review by ID
-  GET http://localhost:3000/reviews/c496da1b-9a35-4967-859a-e5538ed45326 [200 OK, 456B, 3ms]
-
-└ PUT Update review by ID
-  PUT http://localhost:3000/reviews/c496da1b-9a35-4967-859a-e5538ed45326 [200 OK, 456B, 3ms]
-
-└ DELETE Review by ID
-  DELETE http://localhost:3000/reviews/c496da1b-9a35-4967-859a-e5538ed45326 [200 OK, 251B, 9ms]
-
-□ Mentor checks
-└ bookings?userId
-  GET http://localhost:3000/bookings?userId=a1234567-89ab-cdef-0123-456789abcdef [404 Not Found, 273B, 2ms]
-  √  Status code is 404
-
-└ users?username
-  GET http://localhost:3000/users?username=Notfound
- [404 Not Found, 270B, 2ms]
-  √  Status code is 404
-
-└ properties?pricePerNight
-  GET http://localhost:3000/properties?pricePerNight=1000
- [404 Not Found, 274B, 2ms]
-  √  Status code is 404
-
-└ properties?location
-  GET http://localhost:3000/properties?location=Notfound [404 Not Found, 274B, 2ms]
-  √  Status code is 404
-
-└ properties?pricePerNight + location
-  GET http://localhost:3000/properties?pricePerNight=1000&location=Notfound
- [404 Not Found, 274B, 3ms]
-  √  Status code is 404
-
-└ hosts?name
-  GET http://localhost:3000/hosts?name=John+Doef
- [404 Not Found, 270B, 2ms]
-  √  Status code is 404
-
-┌─────────────────────────┬──────────────────┬──────────────────┐
-│                         │         executed │           failed │
-├─────────────────────────┼──────────────────┼──────────────────┤
-│              iterations │                1 │                0 │
-├─────────────────────────┼──────────────────┼──────────────────┤
-│                requests │               38 │                0 │
-├─────────────────────────┼──────────────────┼──────────────────┤
-│            test-scripts │               57 │                0 │
-├─────────────────────────┼──────────────────┼──────────────────┤
-│      prerequest-scripts │               38 │                0 │
-├─────────────────────────┼──────────────────┼──────────────────┤
-│              assertions │                7 │                0 │
-├─────────────────────────┴──────────────────┴──────────────────┤
-│ total run duration: 3.5s                                      │
-├───────────────────────────────────────────────────────────────┤
-│ total data received: 12.77kB (approx)                         │
-├───────────────────────────────────────────────────────────────┤
-│ average response time: 8ms [min: 2ms, max: 142ms, s.d.: 22ms] │
-└───────────────────────────────────────────────────────────────┘
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              52 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              52 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │              26 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              49 │               0 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 2.7s                                    │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 14.69kB (approx)                       │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 5ms [min: 2ms, max: 28ms, s.d.: 4ms] │
+└─────────────────────────────────────────────────────────────┘
 
 > express-bookings@1.0.0 test-negative
 > newman run "./postman/collections/Bookings API Negative.json" -e "./postman/environments/Local.postman_environment.json"
@@ -175,13 +199,13 @@ Bookings API Negative
 
 □ users / {userId}
 └ Get user by ID
-  POST http://0.0.0.0:3000/login [200 OK, 440B, 27ms]
-  GET http://localhost:3000/users/:userId [404 Not Found, 270B, 4ms]
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 37ms]
+  GET http://localhost:3000/users/:userId [404 Not Found, 270B, 5ms]
   √  Response status code is 404
 
 └ Update user by ID
-  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
-  PUT http://localhost:3000/users/d4567890-12 [404 Not Found, 260B, 3ms]
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  PUT http://localhost:3000/users/d4567890-12 [404 Not Found, 260B, 4ms]
   √  Response status code is 404
 
 └ Delete user by ID
@@ -192,29 +216,29 @@ Bookings API Negative
 □ users
 └ Create a new user
   POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
-  POST http://localhost:3000/users [400 Bad Request, 269B, 10ms]
+  POST http://localhost:3000/users [400 Bad Request, 269B, 6ms]
   √  Response status code is 400
 
 □ hosts / {hostId}
 └ Get host by ID
-  POST http://0.0.0.0:3000/login [200 OK, 440B, 23ms]
-  GET http://localhost:3000/hosts/:hostId [404 Not Found, 270B, 4ms]
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  GET http://localhost:3000/hosts/:hostId [404 Not Found, 270B, 3ms]
   √  Response status code is 404
 
 └ Update host by ID
   POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
-  PUT http://localhost:3000/hosts/:hostId [404 Not Found, 260B, 3ms]
+  PUT http://localhost:3000/hosts/:hostId [404 Not Found, 260B, 4ms]
   √  Response status code is 404
 
 └ Delete host by ID
   POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
-  DELETE http://localhost:3000/hosts/:hostId [404 Not Found, 260B, 2ms]
+  DELETE http://localhost:3000/hosts/:hostId [404 Not Found, 260B, 3ms]
   √  Response status code is 404
 
 □ hosts
 └ Create a new host
-  POST http://0.0.0.0:3000/login [200 OK, 440B, 5ms]
-  POST http://localhost:3000/hosts [400 Bad Request, 269B, 3ms]
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  POST http://localhost:3000/hosts [400 Bad Request, 269B, 4ms]
   √  Response status code is 400
 
 □ properties / {propertyId}
@@ -229,19 +253,19 @@ Bookings API Negative
   √  Response status code is 404
 
 └ Update property by ID
-  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
   PUT http://localhost:3000/properties/a9876543-21dc-4321-ba98-fedcba098765 [404 Not Found, 264B, 3ms]
   √  Response status code is 404
 
 └ Delete property by ID
-  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
   DELETE http://localhost:3000/properties/a9876543-21dc-4321-ba98-fedcba098765 [404 Not Found, 264B, 3ms]
   √  Response status code is 404
 
 □ properties
 └ Create a new property
-  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
-  POST http://localhost:3000/properties [400 Bad Request, 269B, 3ms]
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  POST http://localhost:3000/properties [400 Bad Request, 269B, 5ms]
   √  Response status code is 400
 
 □ bookings / {bookingId}
@@ -251,12 +275,12 @@ Bookings API Negative
   √  Response status code is 404
 
 └ Update booking by ID
-  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
-  PUT http://localhost:3000/bookings/f0123456-78ab-cdef-0123-456789abcdef [404 Not Found, 263B, 2ms]
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  PUT http://localhost:3000/bookings/f0123456-78ab-cdef-0123-456789abcdef [404 Not Found, 263B, 3ms]
   √  Response status code is 404
 
 └ Delete booking by ID
-  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
   DELETE http://localhost:3000/bookings/f0123456-78ab-cdef-0123-456789abcdef [404 Not Found, 263B, 2ms]
   √  Response status code is 404
 
@@ -269,12 +293,12 @@ Bookings API Negative
 □ reviews / {reviewId}
 └ Get review by ID
   POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
-  GET http://localhost:3000/reviews/j0123456-78f0-1234-5678-9abcdef01234 [404 Not Found, 272B, 2ms]
+  GET http://localhost:3000/reviews/j0123456-78f0-1234-5678-9abcdef01234 [404 Not Found, 272B, 3ms]
   √  Response status code is 404
 
 └ Update review by ID
   POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
-  PUT http://localhost:3000/reviews/j0123456-78f0-1234-5678-9abcdef01234 [404 Not Found, 262B, 4ms]
+  PUT http://localhost:3000/reviews/j0123456-78f0-1234-5678-9abcdef01234 [404 Not Found, 262B, 3ms]
   √  Response status code is 404
 
 └ Delete review by ID
@@ -284,13 +308,13 @@ Bookings API Negative
 
 □ reviews
 └ Create a new review
-  POST http://0.0.0.0:3000/login [200 OK, 440B, 3ms]
-  POST http://localhost:3000/reviews [400 Bad Request, 269B, 3ms]
+  POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
+  POST http://localhost:3000/reviews [400 Bad Request, 269B, 4ms]
   √  Response status code is 400
 
 → User Login
   POST http://0.0.0.0:3000/login [200 OK, 440B, 4ms]
-  POST http://localhost:3000/login [401 Unauthorized, 278B, 2ms]
+  POST http://localhost:3000/login [401 Unauthorized, 278B, 4ms]
   √  Response status code is 401
 
 ┌─────────────────────────┬─────────────────┬─────────────────┐
@@ -306,9 +330,9 @@ Bookings API Negative
 ├─────────────────────────┼─────────────────┼─────────────────┤
 │              assertions │              22 │               0 │
 ├─────────────────────────┴─────────────────┴─────────────────┤
-│ total run duration: 2.3s                                    │
+│ total run duration: 2.2s                                    │
 ├─────────────────────────────────────────────────────────────┤
 │ total data received: 5.03kB (approx)                        │
 ├─────────────────────────────────────────────────────────────┤
-│ average response time: 4ms [min: 2ms, max: 27ms, s.d.: 4ms] │
+│ average response time: 4ms [min: 2ms, max: 37ms, s.d.: 5ms] │
 └─────────────────────────────────────────────────────────────┘

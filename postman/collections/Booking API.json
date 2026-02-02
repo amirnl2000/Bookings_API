@@ -136,7 +136,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"username\": \"alex_{{$timestamp}}\",\r\n  \"password\": \"password123\",\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe+{{$timestamp}}@example.com\",\r\n  \"phoneNumber\": \"1234567890\",\r\n  \"pictureUrl\": \"https://example.com/pic.jpg\"\r\n}\r\n",
+              "raw": "{\r\n  \"username\": \"alex\",\r\n  \"password\": \"password123\",\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe1@example.com\",\r\n  \"phoneNumber\": \"1234567890\",\r\n  \"pictureUrl\": \"https://example.com/pic.jpg\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -317,19 +317,12 @@
           "response": []
         },
         {
-          "name": "POST Create host",
+          "name": "DELETE host by ID",
           "event": [
             {
               "listen": "test",
               "script": {
                 "exec": [
-                  "const json = pm.response.json();\r",
-                  "const id =\r",
-                  "  json.id ||\r",
-                  "  (json.data && json.data.id) ||\r",
-                  "  (json.user && json.user.id);\r",
-                  "\r",
-                  "if (id) pm.environment.set(\"hostId\", id);\r",
                   ""
                 ],
                 "type": "text/javascript",
@@ -339,26 +332,18 @@
             }
           ],
           "request": {
-            "method": "POST",
+            "method": "DELETE",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"username\": \"newhosty_{{$timestamp}}\",\r\n  \"password\": \"password123\",\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe+host{{$timestamp}}@email.com\",\r\n  \"phoneNumber\": \"11234567890\",\r\n  \"pictureUrl\": \"https://example.com/pic1.jpg\",\r\n  \"aboutMe\": \"I am a passionate traveler who loves to share my home with fellow explorers. Welcome!\"\r\n}\r\n\r\n",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
-              "raw": "http://{{baseURL}}:3000/hosts",
+              "raw": "http://{{baseURL}}:3000/hosts/{{hostId}}",
               "protocol": "http",
               "host": [
                 "{{baseURL}}"
               ],
               "port": "3000",
               "path": [
-                "hosts"
+                "hosts",
+                "{{hostId}}"
               ]
             }
           },
@@ -412,39 +397,6 @@
           "response": []
         },
         {
-          "name": "DELETE host by ID",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "http://{{baseURL}}:3000/hosts/{{hostId}}",
-              "protocol": "http",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "port": "3000",
-              "path": [
-                "hosts",
-                "{{hostId}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
           "name": "GET /hosts?name=John+Doe",
           "request": {
             "method": "GET",
@@ -464,6 +416,54 @@
                   "key": "name",
                   "value": "John+Doe"
                 }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Create host",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "const id =\r",
+                  "  json.id ||\r",
+                  "  (json.data && json.data.id) ||\r",
+                  "  (json.user && json.user.id);\r",
+                  "\r",
+                  "if (id) pm.environment.set(\"hostId\", id);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"newhosty\",\r\n  \"password\": \"password123\",\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoehost@email.com\",\r\n  \"phoneNumber\": \"11234567890\",\r\n  \"pictureUrl\": \"https://example.com/pic1.jpg\",\r\n  \"aboutMe\": \"I am a passionate traveler who loves to share my home with fellow explorers. Welcome!\"\r\n}\r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{baseURL}}:3000/hosts",
+              "protocol": "http",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "port": "3000",
+              "path": [
+                "hosts"
               ]
             }
           },
@@ -1090,8 +1090,14 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Status code is 404\", function () {\r",
-                  "  pm.response.to.have.status(404);\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is a non empty array\", function () {\r",
+                  "  const data = pm.response.json();\r",
+                  "  pm.expect(data).to.be.an(\"array\");\r",
+                  "  pm.expect(data.length).to.be.above(0);\r",
                   "});\r",
                   ""
                 ],

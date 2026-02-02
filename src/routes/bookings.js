@@ -13,13 +13,14 @@ const router = express.Router();
 // GET /bookings?userId=...
 router.get("/", async (req, res, next) => {
   try {
-    const { userId } = req.query;
-    const bookings = await getBookings(userId);
+    const { id, userId } = req.query;
+    const bookings = await getBookings(id, userId);
     res.status(200).json(bookings);
   } catch (err) {
-    next(err); // this will trigger your global error handler
+    next(err);
   }
 });
+
 
 // GET /bookings/:bookingId
 router.get("/:bookingId", async (req, res, next) => {

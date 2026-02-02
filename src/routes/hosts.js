@@ -50,25 +50,12 @@ router.put("/:id", requireAuth, async (req, res, next) => {
 // POST /hosts
 router.post("/", requireAuth, async (req, res, next) => {
   try {
-    const { username, password, name, email, phoneNumber, pictureUrl, aboutMe } = req.body;
-
-    const newHost = await createHost(
-      username,
-      password,
-      name,
-      email,
-      phoneNumber,
-      pictureUrl,
-      aboutMe
-    );
-
+    const newHost = await createHost(req.body);
     res.status(201).json(newHost);
   } catch (err) {
     next(err);
   }
 });
-
-
 
 // DELETE /hosts/:id
 router.delete("/:id", requireAuth, async (req, res, next) => {

@@ -5,7 +5,7 @@
       "username": "jdoe",
       "password": "password123",
       "name": "John Doe",
-      "email": "johndoe@example.com",
+      "email": "jdoe_seed@example.com",
       "phoneNumber": "123-456-7890",
       "pictureUrl": "https://wincacademy.github.io/webpages/media/johndoe.jpeg"
     },

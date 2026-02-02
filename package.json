@@ -4,14 +4,16 @@
   "type": "module",
   "description": "Your REST API for managing bookings",
   "main": "src/index.js",
-  "scripts": {
-    "dev": "nodemon src/index.js",
-    "test-positive": "newman run \"./postman/collections/Bookings API.json\" -e \"./postman/environments/Local.postman_environment.json\"",
-    "test-negative": "newman run \"./postman/collections/Bookings API Negative.json\" -e \"./postman/environments/Local.postman_environment.json\"",
-    "test": "npm run test-positive && npm run test-negative",
-    "reset-db": "npx prisma db push --force-reset && npx prisma db seed",
-    "clean-start": "npx prisma db push --force-reset && npx prisma db seed && npm run dev"
- },
+
+
+"scripts": {
+  "dev": "nodemon src/index.js",
+  "test-positive": "newman run \"./postman/collections/Winc Bookings API.json\" -e \"./postman/environments/Local.postman_environment.json\"",
+  "test-negative": "newman run \"./postman/collections/Bookings API Negative.json\" -e \"./postman/environments/Local.postman_environment.json\"",
+  "test": "npm run reset-db && npm run test-positive && npm run test-negative",
+  "reset-db": "npx prisma db push --force-reset && npx prisma db seed"
+},
+
   "author": "Amir Darzi",
   "license": "ISC",
   "dependencies": {
