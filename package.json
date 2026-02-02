@@ -9,11 +9,11 @@
 "scripts": {
   "dev": "nodemon src/index.js",
   "start": "node src/index.js",
-  "clean-start": "node src/index.js",
+  "reset-db": "npx prisma db push --force-reset && npx prisma db seed",
+  "clean-start": "npm run reset-db && npm run start",
   "test-positive": "newman run \"./postman/collections/Winc Bookings API.json\" -e \"./postman/environments/Local.postman_environment.json\"",
   "test-negative": "newman run \"./postman/collections/Bookings API Negative.json\" -e \"./postman/environments/Local.postman_environment.json\"",
-  "test": "npm run reset-db && npm run test-positive && npm run test-negative",
-  "reset-db": "npx prisma db push --force-reset && npx prisma db seed"
+  "test": "npm run reset-db && npm run test-positive && npm run test-negative"
 },
 
   "author": "Amir Darzi",
